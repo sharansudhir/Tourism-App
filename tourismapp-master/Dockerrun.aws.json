@@ -1,0 +1,71 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "search",
+            "essential": true,
+            "image": "akash80e/back_up:search_api",
+            "name": "search",
+            "memory": 300,
+            "portMappings": [
+                {
+                    "containerPort": 5000,
+                    "hostPort": 5000
+                }
+            ]
+        },
+        {
+            "name": "ticket",
+            "essential": true,
+            "image": "akash80e/back_up:ticket_api",
+            "mountPoints": [
+                {
+                    "containerPath": "/app",
+                    "sourceVolume": "_BackendTicket"
+                }
+            ],
+            "memory": 300,
+            "name": "ticket",
+            "portMappings": [
+                {
+                    "containerPort": 5001,
+                    "hostPort": 5001
+                }
+            ]
+        },
+        {
+            "name": "webclient",
+            "essential": true,
+            "image": "akash80e/back_up:webclient",
+            "mountPoints": [
+                {
+                    "containerPath": "/app",
+                    "sourceVolume": "_Web-Client"
+                }
+            ],
+            "memory": 300,
+            "name": "web",
+            "portMappings": [
+                {
+                    "containerPort": 3000,
+                    "hostPort": 80
+                }
+            ]
+        }
+    ],
+    "family": "",
+    "volumes": [
+        {
+            "host": {
+                "sourcePath": "webclient"
+            },
+            "name": "_Web-Client"
+        },
+        {
+            "host": {
+                "sourcePath": "ticket"
+            },
+            "name": "_BackendTicket"
+        }
+    ]
+}
